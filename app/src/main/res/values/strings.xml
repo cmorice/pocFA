@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">pocFA</string>
+    <string name="app_name">Assurés</string>
     <string name="hello_world">Hello world test!</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="items">
+        <item>Dossier personnel</item>
+        <item>Remboursement</item>
+        <item>Demande de prise en charge</item>
+        <item>Tiers-Payant</item>
+        <item>Consulation des garanties</item>
+    </string-array>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>
