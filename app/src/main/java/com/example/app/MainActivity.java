@@ -1,9 +1,10 @@
 package com.example.app;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -65,7 +66,8 @@ public class MainActivity extends Activity {
 
         // Set the drawer toggle as the DrawerListener
         drawerLayout.setDrawerListener(mDrawerToggle);
-
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
         myDrawer.setOnItemClickListener(new MyDrawerItemClickListener());
     }
 
@@ -81,17 +83,16 @@ public class MainActivity extends Activity {
     /** Swaps fragments in the main content view */
     private void selectItem(int position) {
 
-        //TODO
-//        Fragment fragment = new PlaceholderFragment();
-//        Bundle args = new Bundle();
-//        fragment.setArguments(args);
-//
-//        FragmentManager fragmentManager = getFragmentManager();
-//        fragmentManager.beginTransaction().add(R.id.content_frame, fragment).commit();
+        Fragment fragment = new PlaceholderFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.content_frame, fragment).commit();
 
         // Mise en avant de l'item selectionné, mise à jour du titre et fermeture du menu
         myDrawer.setItemChecked(position, true);
-        setTitle("selection");//TODO
+        setTitle(drawerItemsList[position]);
 
 
         drawerLayout.closeDrawer(myDrawer);
@@ -114,6 +115,13 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -123,15 +131,19 @@ public class MainActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-//
-//    /* Called whenever we call invalidateOptionsMenu() */
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        // If the nav drawer is open, hide action items related to the content view
-//        boolean drawerOpen = drawerLayout.isDrawerOpen(myDrawer);
-//        menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
-//        return super.onPrepareOptionsMenu(menu);
-//    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
 
     /**
      * A placeholder fragment containing a simple view.
